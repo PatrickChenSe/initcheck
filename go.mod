@@ -1,4 +1,4 @@
-module github.com/patrickchense/initchecker
+module github.com/patrickchense/initcheck
 
 go 1.20
 
