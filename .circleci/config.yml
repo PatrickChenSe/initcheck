@@ -1,67 +1,15 @@
-# Couldn't automatically generate a config from your source code.
-# This is a generic template to serve as a base for your custom config
-# See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-jobs:
-  lint:
-    docker:
-      - image: cimg/go:1.20
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - go-mod-v4-{{ checksum "go.sum" }}
-      - run:
-          name: Install Dependencies
-          command: go get ./...
-      - save_cache:
-          key: go-mod-v4-{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run:
-          name: Check Formatting with gofmt
-          command: |
-            echo "Checking code formatting with gofmt..."
-            test -z $(gofmt -l .)
-      - run:
-          name: Lint with golint
-          command: |
-            echo "Installing golint..."
-            go install golang.org/x/lint/golint@latest
-            echo "Linting code with golint..."
-            golint -set_exit_status ./...
-      - run:
-          name: Vet with go vet
-          command: |
-            echo "Vetting code with go vet..."
-            go vet ./...
-
-  test:
-    docker:
-      - image: cimg/go:1.20
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - go-mod-v4-{{ checksum "go.sum" }}
-      - run:
-          name: Install Dependencies
-          command: go get ./...
-      - save_cache:
-          key: go-mod-v4-{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run:
-          name: Run Tests
-          command: |
-            echo "Running tests..."
-            go test -v ./...
+orbs:
+  go: circleci/go@1.7.3
 
 workflows:
   version: 2
-  lint-and-test:
+  build-test-lint:
     jobs:
-      - lint
-      - test
-
+      - go/test:
+          version: "1.20"
+      - go/lint:
+          version: "1.20"
+          requires:
+            - go/test
