@@ -12,6 +12,23 @@ jobs:
       - go/load-cache # Load cached Go modules.
       - go/mod-download # Run 'go mod download'.
       - go/save-cache # Save Go modules to cache.
+      - run: 
+          name: Check Formatting with gofmt
+          command: |
+            echo "Running gofmt..."
+            test -z $(gofmt -l .)
+      - run:
+          name: Lint with golint
+          command: |
+            echo "Installing golint..."
+            go install golang.org/x/lint/golint@latest
+            echo "Running golint..."
+            golint -set_exit_status ./...
+      - run:
+          name: Vet with go vet
+          command: |
+            echo "Running go vet..."
+            go vet ./...
       - go/test: # Runs 'go test ./...' but includes extensive parameterization for finer tuning.
           covermode: atomic
           failfast: true

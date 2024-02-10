@@ -9,6 +9,7 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 )
 
+// InitChecker is the Analyzer used in cmd/main
 var InitChecker = &analysis.Analyzer{
 	Name: "InitChecker",
 	Doc:  `This analyzer suggests "good" initilization behaviors.`,
