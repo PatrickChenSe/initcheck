@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/patrickchense/initcheck/internal/initchecker"
+	"github.com/patrickchense/initcheck/pkg/initchecker"
 
 	"golang.org/x/tools/go/analysis"
 )

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/patrickchense/initcheck/internal/initchecker"
+	"github.com/patrickchense/initcheck/pkg/initchecker"
 
 	"golang.org/x/tools/go/analysis/singlechecker"
 )
